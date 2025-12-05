@@ -30,7 +30,7 @@
 | anthropic/claude-3.5-sonnet | 76.0% | 100.0% | 8.07s | 76 | 100 |
 | meta-llama/llama-3.1-8b-instruct | 74.0% | 100.0% | 3.71s | 74 | 100 |
 | mistralai/ministral-3b-2512 | 41.0% | 100.0% | 2.47s | 41 | 100 |
-| qwen/qwen3-4b:free | 18.18% | 11.0% | 0.94s | 2 | 100 |
+| qwen/qwen3-4b:free | 28.18% | 100.0% | 0.94s | 2 | 100 |
 
 ### Итоговое решение
 
