@@ -8,6 +8,8 @@ OPENROUTER_API_KEY = ""  # ключ
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 MODELS = [
+    "meta-llama/llama-3.3-70b-instruct",
+    "qwen/qwen3-vl-30b-a3b-instruct",
     "google/gemini-2.5-flash-preview-09-2025",
     "microsoft/phi-4",
     "anthropic/claude-3.5-sonnet",
@@ -188,3 +190,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
