@@ -1,0 +1,8 @@
+model,accuracy,success_rate,avg_response_time,total_correct,total_processed
+google/gemini-2.5-flash-preview-09-2025,83.0,100.0,3.0503957533836363,83,100
+x-ai/grok-4.1-fast,0.0,0.0,0.3888835072517395,0,100
+anthropic/claude-3.5-sonnet,76.0,100.0,7.170276575088501,76,100
+mistralai/ministral-3b-2512,51.0,100.0,3.084986324310303,51,100
+qwen/qwen3-4b:free,40.0,30.0,1.413834023475647,12,100
+meta-llama/llama-3.1-8b-instruct,69.0,100.0,4.661757066249847,69,100
+deepseek/deepseek-v3.2-speciale,0.0,98.0,10.961504695415497,0,100
