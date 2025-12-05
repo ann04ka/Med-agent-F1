@@ -5,7 +5,7 @@ from data_processor import DataProcessor
 from medical_agent_gigachat import MedicalAgentGigaChat
 
 st.set_page_config(
-    page_title="Medical Insight",
+    page_title="Медицинский инсайт",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -57,7 +57,7 @@ def page_main():
     fig_gender = px.pie(gender_data, values='Количество', names='Пол',
                         title='Распределение пациентов по полу',
                         color_discrete_sequence=['#FF6692', '#0083B8'])
-    st.plotly_chart(fig_gender, use_container_width=True)
+    st.plotly_chart(fig_gender, width='stretch')
 
     col1, col2 = st.columns(2)
 
@@ -69,7 +69,7 @@ def page_main():
         fig_region = px.bar(region_data, x='Регион', y='Количество',
                             title='Распределение по регионам',
                             color='Количество', color_continuous_scale='Blues')
-        st.plotly_chart(fig_region, use_container_width=True)
+        st.plotly_chart(fig_region, width='stretch')
 
     with col2:
         st.subheader("Возрастные группы")
@@ -78,7 +78,7 @@ def page_main():
         if age_data is not None:
             fig_age = px.pie(age_data, values='Количество пациентов',
                              names='Возрастная группа', title='Распределение по возрасту')
-            st.plotly_chart(fig_age, use_container_width=True)
+            st.plotly_chart(fig_age, width='stretch')
 
     st.markdown("---")
     st.subheader("Информация")
@@ -112,14 +112,14 @@ def page_analytics():
                                   title='Динамика выписки рецептов по месяцам', markers=True)
             fig_monthly.update_traces(line_color='#0083B8', line_width=3)
             fig_monthly.update_xaxes(tickangle=-45)
-            st.plotly_chart(fig_monthly, use_container_width=True)
+            st.plotly_chart(fig_monthly, width='stretch')
 
         with col2:
             fig_quarterly = px.bar(seasonality_data['quarterly_stats'],
                                    x='квартал_название', y='количество_рецептов',
                                    title='Количество рецептов по кварталам',
                                    color='количество_рецептов', color_continuous_scale='Reds')
-            st.plotly_chart(fig_quarterly, use_container_width=True)
+            st.plotly_chart(fig_quarterly, width='stretch')
 
         st.info("""
 **Ключевые выводы:**
@@ -144,13 +144,13 @@ def page_analytics():
 
         with col1:
             st.dataframe(disease_stats['region_stats'].sort_values('На 1000 населения', ascending=False),
-                         use_container_width=True)
+                         width='stretch')
 
         with col2:
             fig_region = px.bar(disease_stats['region_stats'], x='Регион', y='На 1000 населения',
                                 title='Пациентов на 1000 населения по регионам',
                                 color='На 1000 населения', color_continuous_scale='Viridis')
-            st.plotly_chart(fig_region, use_container_width=True)
+            st.plotly_chart(fig_region, width='stretch')
 
         st.subheader("По районам")
 
@@ -161,11 +161,11 @@ def page_analytics():
                                color='На 1000 населения', color_continuous_scale='Oranges',
                                hover_data=['Пациентов', 'Население'])
         fig_districts.update_xaxes(tickangle=-45)
-        st.plotly_chart(fig_districts, use_container_width=True)
+        st.plotly_chart(fig_districts, width='stretch')
 
         with st.expander("Полная таблица по всем районам"):
             st.dataframe(disease_stats['district_stats'].sort_values('На 1000 населения', ascending=False),
-                         use_container_width=True)
+                         width='stretch')
 
     st.markdown("---")
 
@@ -177,7 +177,7 @@ def page_analytics():
         fig_classes = px.bar(disease_classes, x='Количество случаев', y='Класс заболевания',
                              orientation='h', title='ТОП-15 классов заболеваний',
                              color='Количество случаев', color_continuous_scale='Purples')
-        st.plotly_chart(fig_classes, use_container_width=True)
+        st.plotly_chart(fig_classes, width='stretch')
 
 
 def page_drug_search():
@@ -223,10 +223,10 @@ def page_drug_search():
             fig = px.bar(drugs.head(10), x='Частота назначений', y='Препарат', orientation='h',
                          title=f'ТОП-10 назначений для лечения "{search_query}"',
                          color='Частота назначений', color_continuous_scale='Blues')
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
             st.subheader("Детальная информация")
-            st.dataframe(drugs, use_container_width=True)
+            st.dataframe(drugs, width='stretch')
 
         else:
             st.warning(f"Не найдено препаратов для '{search_query}'. Попробуйте другое название.")
@@ -247,13 +247,13 @@ def page_drug_search():
 
         if treatments is not None and len(treatments) > 0:
             st.subheader("ТОП-20 схем лечения")
-            st.dataframe(treatments, use_container_width=True)
+            st.dataframe(treatments, width='stretch')
 
             fig = px.bar(treatments.head(15), x='Частота', y='Диагноз', orientation='h',
                          title='ТОП-15 диагнозов по частоте назначений',
                          color='Частота', color_continuous_scale='Greens',
                          hover_data=['Препарат', 'Средняя цена'])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.warning("Данные о назначениях недоступны")
 
@@ -277,7 +277,7 @@ def page_drug_search():
                 fig_female = px.bar(top_female, x='% женщин', y='Название диагноза', orientation='h',
                                     title='ТОП-10 заболеваний у женщин',
                                     color='% женщин', color_continuous_scale='Reds')
-                st.plotly_chart(fig_female, use_container_width=True)
+                st.plotly_chart(fig_female, width='stretch')
 
             with col2:
                 st.markdown("**Чаще у мужчин:**")
@@ -286,10 +286,10 @@ def page_drug_search():
                 fig_male = px.bar(top_male, x='% мужчин', y='Название диагноза', orientation='h',
                                   title='ТОП-10 заболеваний у мужчин',
                                   color='% мужчин', color_continuous_scale='Blues')
-                st.plotly_chart(fig_male, use_container_width=True)
+                st.plotly_chart(fig_male, width='stretch')
 
             with st.expander("Полная таблица"):
-                st.dataframe(comparison, use_container_width=True)
+                st.dataframe(comparison, width='stretch')
         else:
             st.warning("Недостаточно данных для анализа")
 
@@ -305,7 +305,7 @@ def page_ai_analysis():
         st.info("Убедитесь, что установлена переменная окружения OPENROUTER_API_KEY")
         return
 
-    st.success("Агент готов к анализу (Gemini 2.0 Flash)")
+    st.success("Агент готов к анализу")
 
     st.markdown("---")
 
@@ -353,9 +353,6 @@ def page_ai_analysis():
 **Ответ:**
 
 {result['answer']}
-
----
-*Модель: {result['model']}*
             """)
         else:
             st.error(f"Ошибка: {result['answer']}")
@@ -372,28 +369,28 @@ def page_data():
     with tab1:
         st.subheader("Таблица пациентов (первые 100)")
         if processor.patients is not None:
-            st.dataframe(processor.patients.head(100), use_container_width=True)
+            st.dataframe(processor.patients.head(100), width='stretch')
         else:
             st.warning("Данные не загружены")
 
     with tab2:
         st.subheader("Справочник диагнозов (первые 100)")
         if processor.diagnoses is not None:
-            st.dataframe(processor.diagnoses.head(100), use_container_width=True)
+            st.dataframe(processor.diagnoses.head(100), width='stretch')
         else:
             st.warning("Данные не загружены")
 
     with tab3:
         st.subheader("Справочник препаратов (первые 100)")
         if processor.drugs is not None:
-            st.dataframe(processor.drugs.head(100), use_container_width=True)
+            st.dataframe(processor.drugs.head(100), width='stretch')
         else:
             st.warning("Данные не загружены")
 
     with tab4:
         st.subheader("Рецепты (первые 100)")
         if processor.prescriptions is not None:
-            st.dataframe(processor.prescriptions.head(100), use_container_width=True)
+            st.dataframe(processor.prescriptions.head(100), width='stretch')
             st.info(f"Всего рецептов в базе: **{len(processor.prescriptions):,}**")
         else:
             st.warning("Данные не загружены")

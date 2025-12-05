@@ -5,7 +5,7 @@ class GigaChatConfig:
 
     OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "") # ключ
     OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
-    MODEL_NAME = "google/gemini-2.5-flash-preview-09-2025"
+    MODEL_NAME = "qwen/qwen3-vl-30b-a3b-instruct"
 
     TEMPERATURE = 0.3
     MAX_TOKENS = 2048
