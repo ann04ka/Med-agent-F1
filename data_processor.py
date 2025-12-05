@@ -119,6 +119,9 @@ class DataProcessor:
         print("Creating merged table from prescriptions...")
 
         merged = self.prescriptions.copy()
+        cols = list(merged.columns)
+        cols[4] = 'id_пациента_1'
+        merged.columns = cols
 
         patient_cols = ['id_пациента', 'пол', 'возраст', 'возрастная_группа', 'район_проживания', 'регион']
         merged = merged.merge(
