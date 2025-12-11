@@ -3,6 +3,8 @@ import pandas as pd
 import plotly.express as px
 from data_processor import DataProcessor
 from medical_agent_gigachat import MedicalAgentGigaChat
+from threading import Thread
+import queue
 
 st.set_page_config(
     page_title="Медицинский инсайт",
@@ -341,21 +343,59 @@ def page_ai_analysis():
     if question_to_ask:
         st.subheader("Ответ от AI")
 
+        result_queue = queue.Queue()
+
+        def get_ai_response():
+            try:
+                result = agent.query(question_to_ask)
+                result_queue.put(result)
+            except Exception as e:
+                result_queue.put({'status': 'error', 'answer': str(e)})
+
+        thread = Thread(target=get_ai_response, daemon=True)
+        thread.start()
+        thread.join(timeout=120)
+
         with st.spinner("Анализирую данные..."):
-            result = agent.query(question_to_ask)
+            try:
+                # Пытаемся получить результат
+                result = result_queue.get_nowait()
 
-        if result['status'] == 'success':
-            st.success("Анализ выполнен")
+                if result['status'] == 'success':
+                    st.success("Анализ выполнен")
+                    st.markdown(f"""
+                        **Вопрос:** {question_to_ask}
 
-            st.markdown(f"""
-**Вопрос:** {question_to_ask}
+                        **Ответ:**
 
-**Ответ:**
+                        {result['answer']}
+                        """)
+                else:
+                    st.error(f"Ошибка: {result['answer']}")
 
-{result['answer']}
-            """)
-        else:
-            st.error(f"Ошибка: {result['answer']}")
+            except queue.Empty:
+                st.warning("⏱️ **Модель недоступна**")
+                st.error("""
+                    Время ожидания ответа от модели превысило 40 секунд. 
+                    Сервис временно недоступен. Пожалуйста, попробуйте позже.
+                    """)
+
+                st.markdown("---")
+                st.subheader("📊 Стандартная статистика")
+
+                stats = processor.get_summary_stats()
+
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.metric(label="Пациентов", value=f"{stats['total_patients']:,}")
+                with col2:
+                    st.metric(label="Диагнозов", value=f"{stats['total_diagnoses']:,}")
+                with col3:
+                    st.metric(label="Препаратов", value=f"{stats['total_drugs']:,}")
+                with col4:
+                    st.metric(label="Рецептов", value=f"{stats['total_prescriptions']:,}")
+
+                st.info(f"Средний возраст: **{stats['avg_age']:.1f}** лет")
 
 
 def page_data():
