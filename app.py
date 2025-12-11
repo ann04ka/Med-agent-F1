@@ -358,7 +358,6 @@ def page_ai_analysis():
 
         with st.spinner("Анализирую данные..."):
             try:
-                # Пытаемся получить результат
                 result = result_queue.get_nowait()
 
                 if result['status'] == 'success':
